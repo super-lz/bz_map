@@ -64,18 +64,7 @@ const AMapWidget(
 )
 ```
 
-## 说明
-
-- 当前实现以“可迁移、可继续二次开发”为目标，优先保持与高德原插件 API 兼容。
-- `flutter analyze` 在当前代码上仍有较多历史风格提示，但核心编译错误已清理，单测可通过。
-
-## 兼容处理
-
-### 空定位回调
-
-Android 地图 SDK 在定位蓝点尚未产生有效位置时，可能触发 `location#changed` 且 payload 中的 `location` 为空。插件会忽略空定位或结构不完整的定位 payload，避免 Dart 侧空值强制解包导致异常。
-
-### iOS 模拟器 Stub 实现
+## iOS 模拟器 Stub 行为
 
 设置环境变量后，podspec 会使用 `ios/ClassesStub` 中的模拟器实现：
 
@@ -86,3 +75,8 @@ AMAP_IOS_SIMULATOR_STUBS=1
 - 注册 `com.bz.flutter.map` 平台视图
 - 不链接 `AMap3DMap`
 - 不提供真实地图渲染能力
+
+## 说明
+
+- 当前实现以“可迁移、可继续二次开发”为目标，优先保持与高德原插件 API 兼容。
+- `flutter analyze` 在当前代码上仍有较多历史风格提示，但核心编译错误已清理，单测可通过。
