@@ -162,11 +162,18 @@ class MethodChannelAMapFlutterMap implements AMapFlutterPlatform {
   Future<dynamic> _handleMethodCall(MethodCall call, int mapId) async {
     switch (call.method) {
       case 'location#changed':
-        try {
-          _mapEventStreamController.add(LocationChangedEvent(
-              mapId, AMapLocation.fromMap(call.arguments['location'])!));
-        } catch (e) {
-          print("location#changed error=======>" + e.toString());
+        final Object? rawLocation = call.arguments['location'];
+        if (rawLocation is Map) {
+          try {
+            final AMapLocation? location = AMapLocation.fromMap(rawLocation);
+            if (location != null) {
+              _mapEventStreamController.add(
+                LocationChangedEvent(mapId, location),
+              );
+            }
+          } catch (_) {
+            // Native may report an incomplete location before the SDK has a fix.
+          }
         }
         break;
 
