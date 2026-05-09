@@ -162,6 +162,8 @@ class MethodChannelAMapFlutterMap implements AMapFlutterPlatform {
   Future<dynamic> _handleMethodCall(MethodCall call, int mapId) async {
     switch (call.method) {
       case 'location#changed':
+        // Android may emit an empty location before the SDK produces a valid
+        // blue-dot update. Invalid location payloads are ignored.
         final Object? rawLocation = call.arguments['location'];
         if (rawLocation is Map) {
           try {
